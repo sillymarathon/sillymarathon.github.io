@@ -8,6 +8,55 @@
     <title>Marathon 2025 - Landing</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/styles.css" />
+    <style>
+        /* Style the header */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            text-align: center;
+        }
+
+        /* Admin button styling */
+        .admin-btn {
+            padding: 10px 18px;
+            color: linear-gradient(135deg, #ffffff, #007aff);
+            color: white;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            display: inline-block;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+
+        .admin-btn:hover {
+            background: linear-gradient(135deg, #357ab8, #0061d3);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 122, 255, 0.35);
+        }
+
+        /* Adjust layout for smaller screens */
+        @media (max-width: 600px) {
+            header {
+                justify-content: center;
+                /* Center the content on smaller screens */
+            }
+
+            .admin-btn {
+                font-size: 14px;
+                padding: 8px 16px;
+                margin-top: 15px;
+                /* Extra space for mobile */
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -16,6 +65,9 @@
         <div class="logo">
             <h1>🏃‍♂️ Marathon 2025</h1>
             <p>Race for glory, race for life</p>
+        </div>
+        <div class="admin-login">
+            <a href="admin/login.html" class="admin-btn">Admin Login</a>
         </div>
     </header>
 

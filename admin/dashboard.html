@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | Marathon 2025</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap">
+</head>
+
+<body>
+    <!-- Update Modal -->
+    <div id="updateModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal()">&times;</span>
+            <h2>Update Participant</h2>
+            <form id="updateForm">
+                <input type="hidden" id="updateId">
+
+                <label>Full Name</label>
+                <input type="text" id="updateFullName" required>
+
+                <label>Email</label>
+                <input type="email" id="updateEmail" required>
+
+                <label>Phone</label>
+                <input type="text" id="updatePhone" required>
+
+                <label>Age</label>
+                <input type="number" id="updateAge" required>
+
+                <label>Blood Group</label>
+                <input type="text" id="updateBloodGroup" required>
+
+                <label>Event</label>
+                <select id="updateCategory" required>
+                    <option value="5k">5k</option>
+                    <option value="10k">10k</option>
+                    <option value="20k">20k</option>
+                    <option value="40k">40k</option>
+                </select>
+
+                <button type="submit">Save Changes</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="dashboard-header">
+        <h1>🏃‍♂️ Marathon 2025 — Admin Panel</h1>
+        <button id="logoutBtn">Logout</button>
+        <a href="qrscanner.html">
+            <button
+                style="background:#008800;color:white;padding:10px 20px;border:none;border-radius:6px;cursor:pointer;">
+                Scan QR & Mark Attendance
+            </button>
+        </a>
+        <a href="qr-details.html" class="qr-button">📷 QR Details</a>
+    </div>
+
+    <div class="cards-container" id="participantsCards">
+        <!-- Participant cards will load here -->
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
+    <script src="../js/firebase-config.js"></script>
+    <script src="../js/dashboard.js"></script>
+</body>
+
+</html>

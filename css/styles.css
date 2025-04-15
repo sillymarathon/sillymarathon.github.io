@@ -204,3 +204,65 @@ footer {
     color: #666;
     font-size: 0.9rem;
 }
+.admin-body {
+    background: #f4f6f8;
+    font-family: 'Poppins', sans-serif;
+}
+
+.login-container,
+.dashboard-container {
+    max-width: 450px;
+    margin: 50px auto;
+    background: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+}
+
+.login-container h2,
+.dashboard-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+thead {
+    background-color: #0044cc;
+    color: white;
+}
+
+th,
+td {
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+}
+
+tbody tr:nth-child(odd) {
+    background-color: #f9f9f9;
+}
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background: #0a58ca;
+    color: white;
+}
+
+.admin-login .admin-btn {
+    background-color: white;
+    color: #0a58ca;
+    padding: 8px 16px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.admin-login .admin-btn:hover {
+    background-color: #e2e6ea;
+}

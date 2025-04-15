@@ -48,7 +48,7 @@
                 </select>
 
                 <label for="category">Select Event</label>
-                <select id="category" name="category">
+                <select id="category" name="category" required>
                     <option value="5k">5K</option>
                     <option value="10k">10K</option>
                     <option value="20k">20K</option>
@@ -65,15 +65,91 @@
     </main>
 
     <footer>
-        <p>&copy; 2025 Silly Marathon| Powered by Natural Hege</p>
+        <p>&copy; 2025 Silly Marathon | Powered by Natural Hege</p>
     </footer>
+
+    <!-- QR Code Generator -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
 
     <!-- Firebase -->
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
 
+    <!-- Your Firebase Config -->
     <script src="js/firebase-config.js"></script>
-    <script src="js/form.js"></script>
+
+    <script>
+        const form = document.getElementById('form');
+        const message = document.getElementById('message');
+        const costDisplay = document.getElementById('cost');
+
+        const prices = {
+            "5k": 500,
+            "10k": 700,
+            "20k": 1000,
+            "40k": 1200
+        };
+
+        document.getElementById('category').addEventListener('change', e => {
+            costDisplay.textContent = prices[e.target.value] || 0;
+        });
+
+        form.addEventListener('submit', async e => {
+            e.preventDefault();
+
+            const fullName = form.fullName.value.trim();
+            const email = form.email.value.trim();
+            const phone = form.phone.value.trim();
+            const age = parseInt(form.age.value);
+            const bloodGroup = form.bloodGroup.value;
+            const category = form.category.value;
+
+            if (!fullName || !email || !phone || !age || !bloodGroup || !category) {
+                message.textContent = "❌ Please fill all fields.";
+                return;
+            }
+
+            const newRef = firebase.database().ref('enrollments').push();
+            const userId = newRef.key;
+
+            const userData = {
+                fullName,
+                email,
+                phone,
+                age,
+                bloodGroup,
+                category,
+                attendance: false
+            };
+
+            try {
+                await newRef.set(userData);
+
+                // Generate QR Code in compact, clean style
+                const qr = new QRious({
+                    value: userId,
+                    size: 150,              // Small, clear size
+                    background: '#ffffff',  // White background
+                    foreground: '#000000',  // Black modules
+                    level: 'H'              // High error correction
+                });
+
+                // Auto download the QR
+                const link = document.createElement('a');
+                link.href = qr.toDataURL();
+                link.download = `${fullName.replace(/\s+/g, '_')}_QR.png`;
+                link.click();
+
+                message.innerHTML = `✅ Registered successfully!<br>Your QR Code has been downloaded.`;
+
+                form.reset();
+                costDisplay.textContent = '0';
+            } catch (error) {
+                console.error(error);
+                message.textContent = "❌ Error submitting your form.";
+            }
+        });
+    </script>
 
 </body>
 

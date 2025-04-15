@@ -11,7 +11,7 @@ document.getElementById('category').addEventListener('change', function () {
   document.getElementById('cost').textContent = price;
 });
 
-document.getElementById('form').addEventListener('submit', function (e) {
+document.getElementById('form').addEventListener('submit', async function (e) {
   e.preventDefault();
 
   const fullName = document.getElementById('fullName').value.trim();
@@ -29,26 +29,45 @@ document.getElementById('form').addEventListener('submit', function (e) {
     return;
   }
 
-  const entry = database.ref('enrollments').push();
-  entry.set({
-    fullName,
-    email,
-    phone,
-    age,
-    bloodGroup,
-    category,
-    totalCost: cost,
-    timestamp: new Date().toISOString()
-  })
-    .then(() => {
-      message.textContent = `Thanks, ${fullName}! You've enrolled for the ${category.toUpperCase()} event.`;
-      message.style.color = 'green';
-      this.reset();
-      document.getElementById('cost').textContent = 0;
-    })
-    .catch(error => {
-      console.error(error);
-      message.textContent = 'Something went wrong. Please try again.';
-      message.style.color = 'red';
+  try {
+    // Create a new Firebase entry and get the unique key
+    const newEntryRef = database.ref('enrollments').push();
+    const userId = newEntryRef.key;
+
+    await newEntryRef.set({
+      fullName,
+      email,
+      phone,
+      age,
+      bloodGroup,
+      category,
+      totalCost: cost,
+      attendance: false,
+      timestamp: new Date().toISOString()
     });
+
+    // Generate the QR code containing the user ID
+    const qr = new QRious({
+      value: userId,
+      size: 250
+    });
+
+    // Trigger download of the QR code
+    const a = document.createElement('a');
+    a.href = qr.toDataURL();
+    a.download = `MarathonTicket_${fullName.replace(/\s+/g, '_')}.png`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+
+    message.textContent = `Thanks, ${fullName}! You've enrolled for the ${category.toUpperCase()} event. QR code downloaded!`;
+    message.style.color = 'green';
+    this.reset();
+    document.getElementById('cost').textContent = 0;
+
+  } catch (error) {
+    console.error(error);
+    message.textContent = 'Something went wrong. Please try again.';
+    message.style.color = 'red';
+  }
 });
