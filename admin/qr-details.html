@@ -202,7 +202,14 @@
                 }
             });
 
-            scanner.start().catch(err => {
+            scanner.start({ // Adjust scan settings for speed
+                video: {
+                    facingMode: 'environment', // Use the back camera for scanning
+                    width: { ideal: 1280 }, // Set video resolution to speed up the process
+                    height: { ideal: 720 }  // Set height accordingly
+                },
+                frameRate: 60 // Increase frame rate for faster detection
+            }).catch(err => {
                 console.error("Camera access error:", err);
                 resultDisplay.textContent = "❌ Camera not accessible or permission denied.";
                 resultDisplay.classList.add('error');

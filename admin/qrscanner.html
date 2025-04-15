@@ -126,12 +126,11 @@
                 if (data) {
                     await database.ref('enrollments/' + userId).update({ attendance: true });
 
-                    resultDisplay.innerHTML = `
-                    ✅ Attendance Marked! <br><br>
+                    resultDisplay.innerHTML = `✅ Attendance Marked! <br><br>
                     <strong>Name:</strong> ${data.fullName}<br>
                     <strong>Event:</strong> ${data.category}<br>
                     <strong>Phone:</strong> ${data.phone}
-                `;
+                    `;
                     resultDisplay.classList.add('success');
 
                 } else {
@@ -148,11 +147,19 @@
             setTimeout(() => {
                 resultDisplay.textContent = "Ready for next scan...";
                 resultDisplay.className = "result";
-                scanner.start();  // Restart scanner
-            }, 3000);
+                scanner.start();  // Restart scanner for next scan
+            }, 2000);  // Wait for 2 seconds before the next scan attempt
         });
 
-        scanner.start().catch(err => {
+        // Start scanning with optimized settings
+        scanner.start({
+            video: {
+                facingMode: 'environment', // Use back camera for faster scanning
+                width: { ideal: 1280 }, // Set resolution to 1280px wide
+                height: { ideal: 720 } // Set resolution to 720px tall
+            },
+            frameRate: 60 // Increase frame rate for faster detection
+        }).catch(err => {
             console.error("Camera access error:", err);
             resultDisplay.textContent = "❌ Camera not accessible or permission denied.";
             resultDisplay.classList.add('error');
