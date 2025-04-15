@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Register - Marathon 2025</title>
+    <title>Marathon 2025 - Enrollment Form</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/styles.css" />
 </head>
@@ -13,14 +13,14 @@
 
     <header>
         <div class="logo">
-            <h1>🏃‍♀️ Marathon 2025</h1>
+            <h1>Marathon 2025</h1>
             <p>Race for glory, race for life</p>
         </div>
     </header>
 
     <main class="form-page">
         <section class="enroll-form">
-            <h2>Event Registration</h2>
+            <h2>Register Now</h2>
             <form id="form">
                 <label for="fullName">Full Name</label>
                 <input type="text" id="fullName" name="fullName" required />
@@ -35,9 +35,19 @@
                 <input type="number" id="age" name="age" min="12" required />
 
                 <label for="bloodGroup">Blood Group</label>
-                <input type="text" id="bloodGroup" name="bloodGroup" required />
+                <select id="bloodGroup" name="bloodGroup" required>
+                    <option value="">Select Blood Group</option>
+                    <option value="A+">A+</option>
+                    <option value="A−">A−</option>
+                    <option value="B+">B+</option>
+                    <option value="B−">B−</option>
+                    <option value="AB+">AB+</option>
+                    <option value="AB−">AB−</option>
+                    <option value="O+">O+</option>
+                    <option value="O−">O−</option>
+                </select>
 
-                <label for="category">Event Category</label>
+                <label for="category">Select Event</label>
                 <select id="category" name="category">
                     <option value="5k">5K</option>
                     <option value="10k">10K</option>
@@ -45,23 +55,23 @@
                     <option value="40k">40K</option>
                 </select>
 
-                <p class="cost-display">Total Cost: ₹<span id="cost">0</span></p>
-
-                <button type="submit">Pay & Register</button>
+                <p><strong>Total Cost: ₹<span id="cost">0</span></strong></p>
+                <button type="submit">Pay Now</button>
             </form>
-            <p id="message"></p>
 
             <a href="index.html" class="back-btn">← Back to Home</a>
+            <p id="message"></p>
         </section>
     </main>
 
     <footer>
-        <p>&copy; 2025 Silly Marathon | Powered by Natural Hege</p>
+        <p>&copy; 2025 Silly Marathon| Powered by Natural Hege</p>
     </footer>
 
     <!-- Firebase -->
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
+
     <script src="js/firebase-config.js"></script>
     <script src="js/form.js"></script>
 
