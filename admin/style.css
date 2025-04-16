@@ -446,3 +446,19 @@ body {
     max-width: 100%;
     display: inline-block;
 }
+.card {
+    max-width: 360px;
+    /* or whatever you want */
+    width: 100%;
+    box-sizing: border-box;
+    word-break: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
+}
+
+.email {
+    display: block;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+    white-space: normal;
+}
