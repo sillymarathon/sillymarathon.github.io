@@ -432,14 +432,22 @@ body {
 .cards-container {
     display: flex;
     flex-wrap: wrap;
-    gap: 20px;
-    /* adds space between cards */
+    gap: 24px;
     padding: 20px;
     justify-content: center;
 }
 
 .cards-container>div {
-    flex: 0 1 300px;
-    /* ensures cards don't overflow and wrap nicely */
+    flex: 0 1 340px;
+    /* ⬅️ wider cards */
     box-sizing: border-box;
+    min-height: 280px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    word-wrap: break-word;
+    /* ⬅️ wrap long text */
+    overflow-wrap: break-word;
+    /* ⬅️ for cross-browser support */
+    padding: 16px;
 }
