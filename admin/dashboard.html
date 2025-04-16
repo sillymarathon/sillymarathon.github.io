@@ -7,6 +7,76 @@
     <title>Admin Dashboard | Marathon 2025</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .filter-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            align-items: center;
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            margin: 20px 0;
+        }
+
+        .filter-container label {
+            font-weight: 600;
+            font-size: 14px;
+            color: #333;
+        }
+
+        .filter-container select {
+            padding: 10px 14px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+            min-width: 150px;
+            background: #fafafa;
+            transition: border-color 0.2s;
+        }
+
+        .filter-container select:focus {
+            border-color: #008800;
+            outline: none;
+        }
+
+        .filter-container button {
+            padding: 10px 18px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .filter-container button:first-of-type {
+            background-color: #008800;
+            color: white;
+        }
+
+        .filter-container button:first-of-type:hover {
+            background-color: #006600;
+        }
+
+        .filter-container button:last-of-type {
+            background-color: #e0e0e0;
+            color: #333;
+        }
+
+        .filter-container button:last-of-type:hover {
+            background-color: #c0c0c0;
+        }
+
+        .participant-card {
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+    </style>
 </head>
 
 <body>
@@ -50,12 +120,30 @@
         <h1>🏃‍♂️ Marathon 2025 — Admin Panel</h1>
         <button id="logoutBtn">Logout</button>
         <a href="qrscanner.html">
-            <button
-                style="background:#008800;color:white;padding:10px 20px;border:none;border-radius:6px;cursor:pointer;">
+            <button style="background:#008800;color:white;padding:10px 20px;border:none;border-radius:6px;cursor:pointer;">
                 Scan QR & Mark Attendance
             </button>
         </a>
         <a href="qr-details.html" class="qr-button">📷 QR Details</a>
+    </div>
+
+    <!-- 🧠 Improved Filter -->
+    <div class="filter-container">
+        <label for="filterType">Filter by:</label>
+        <select id="filterType">
+            <option value="">-- Select --</option>
+            <option value="fullName">Name</option>
+            <option value="bloodGroup">Blood Group</option>
+            <option value="age">Age</option>
+            <option value="category">Event</option>
+        </select>
+
+        <select id="filterValue">
+            <option value="">Select a type first</option>
+        </select>
+
+        <button onclick="applySelectedFilter()">Apply Filter</button>
+        <button onclick="resetFilter()">Reset</button>
     </div>
 
     <div class="cards-container" id="participantsCards">
