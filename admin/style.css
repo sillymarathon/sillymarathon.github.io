@@ -433,15 +433,13 @@ body {
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
-    /* adds spacing between cards */
+    /* adds space between cards */
     padding: 20px;
-    /* optional: adds space around the whole container */
     justify-content: center;
-    /* optional: center the cards */
 }
 
-.cards-container .card {
-    /* If you have a card class, ensure it has a fixed width or max-width */
-    width: 300px;
+.cards-container>div {
+    flex: 0 1 300px;
+    /* ensures cards don't overflow and wrap nicely */
     box-sizing: border-box;
 }
