@@ -2,118 +2,161 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Marathon 2025 - Landing</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/styles.css" />
-    <style>
-        /* Style the header */
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px;
-            flex-wrap: wrap;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>Marathon 2025 - Landing</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css" />
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+    }
 
-        .logo {
-            text-align: center;
-        }
+    header {
+      display: flex;
+      justify-content: center; /* Center-aligns the content horizontally */
+      align-items: center; /* Center-aligns the content vertically */
+      flex-direction: column; /* Stacks the logo and text vertically */
+      padding: 20px;
+      text-align: center; /* Ensures text is centered */
+    }
 
-        /* Admin button styling */
-        .admin-btn {
-            padding: 10px 18px;
-            color: linear-gradient(135deg, #ffffff, #007aff);
-            color: white;
-            font-weight: 600;
-            text-decoration: none;
-            border-radius: 10px;
-            transition: all 0.3s ease;
-            display: inline-block;
-            font-size: 16px;
-            margin-top: 10px;
-        }
+    .logo {
+      text-align: center;
+    }
 
-        .admin-btn:hover {
-            background: linear-gradient(135deg, #357ab8, #0061d3);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(0, 122, 255, 0.35);
-        }
+    .hero {
+      text-align: center;
+      padding: 40px 20px;
+    }
 
-        /* Adjust layout for smaller screens */
-        @media (max-width: 600px) {
-            header {
-                justify-content: center;
-                /* Center the content on smaller screens */
-            }
+    .cta-btn {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 12px 24px;
+      font-size: 18px;
+      background: linear-gradient(135deg, #007aff, #0051a3);
+      color: white;
+      border-radius: 12px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
 
-            .admin-btn {
-                font-size: 14px;
-                padding: 8px 16px;
-                margin-top: 15px;
-                /* Extra space for mobile */
-            }
-        }
-    </style>
+    .cta-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 8px 20px rgba(0, 122, 255, 0.35);
+    }
+
+    .event-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      padding: 20px;
+    }
+
+    .card {
+      background-color: #f8f8f8;
+      padding: 20px;
+      border-radius: 16px;
+      text-align: center;
+      transition: all 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+    }
+
+    .price-tag {
+      font-weight: bold;
+      margin: 10px 0;
+      display: block;
+    }
+
+    .event-btn {
+      text-decoration: none;
+      color: white;
+      background: #007aff;
+      padding: 10px 18px;
+      border-radius: 10px;
+      display: inline-block;
+      margin-top: 10px;
+      transition: all 0.3s ease;
+    }
+
+    .event-btn:hover {
+      background: #005fc1;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      background: #eee;
+      margin-top: 40px;
+    }
+
+    .hidden-admin-link {
+      color: inherit;
+      text-decoration: none;
+    }
+  </style>
 </head>
 
 <body>
 
-    <header>
-        <div class="logo">
-            <h1>🏃‍♂️ Silly Marathon 2025</h1>
-            <p>Race for glory, race for life</p>
-        </div>
-        <div class="admin-login">
-            <a href="admin/login.html" class="admin-btn">Admin Login</a>
-        </div>
-    </header>
+  <header>
+    <div class="logo">
+      <h1>🏃‍♂️ Silly Marathon 2025</h1>
+      <p>Race for glory, race for life</p>
+    </div>
+  </header>
 
-    <main class="landing-page">
+  <main class="landing-page">
+    <section class="hero">
+      <h2>Join the Marathon Challenge</h2>
+      <p>
+        Pick your track. Embrace the <a href="admin/login.html" class="hidden-admin-link">thrill</a>. Make history.
+      </p>
+      <a href="form.html" class="cta-btn">Register Now</a>
+    </section>
 
-        <section class="hero">
-            <h2>Join the Marathon Challenge</h2>
-            <p>Pick your track. Embrace the thrill. Make history.</p>
-            <a href="form.html" class="cta-btn">Register Now</a>
-        </section>
+    <section class="event-cards">
+      <div class="card" data-event="5k">
+        <h3>5K</h3>
+        <p>Quick, fun, and thrilling! Ideal for first-timers.</p>
+        <span class="price-tag">₹500</span>
+        <a href="form.html" class="event-btn">Enroll</a>
+      </div>
 
-        <section class="event-cards">
-            <div class="card" data-event="5k">
-                <h3>5K</h3>
-                <p>Quick, fun, and thrilling! Ideal for first-timers.</p>
-                <span class="price-tag">₹500</span>
-                <a href="form.html" class="event-btn">Enroll</a>
-            </div>
+      <div class="card" data-event="10k">
+        <h3>10K</h3>
+        <p>Step it up! A perfect mix of endurance and pace.</p>
+        <span class="price-tag">₹700</span>
+        <a href="form.html" class="event-btn">Enroll</a>
+      </div>
 
-            <div class="card" data-event="10k">
-                <h3>10K</h3>
-                <p>Step it up! A perfect mix of endurance and pace.</p>
-                <span class="price-tag">₹700</span>
-                <a href="form.html" class="event-btn">Enroll</a>
-            </div>
+      <div class="card" data-event="20k">
+        <h3>20K</h3>
+        <p>Gear up for an intense adrenaline-packed run.</p>
+        <span class="price-tag">₹1000</span>
+        <a href="form.html" class="event-btn">Enroll</a>
+      </div>
 
-            <div class="card" data-event="20k">
-                <h3>20K</h3>
-                <p>Gear up for an intense adrenaline-packed run.</p>
-                <span class="price-tag">₹1000</span>
-                <a href="form.html" class="event-btn">Enroll</a>
-            </div>
+      <div class="card" data-event="40k">
+        <h3>40K</h3>
+        <p>The ultimate endurance test for champions.</p>
+        <span class="price-tag">₹1200</span>
+        <a href="form.html" class="event-btn">Enroll</a>
+      </div>
+    </section>
+  </main>
 
-            <div class="card" data-event="40k">
-                <h3>40K</h3>
-                <p>The ultimate endurance test for champions.</p>
-                <span class="price-tag">₹1200</span>
-                <a href="form.html" class="event-btn">Enroll</a>
-            </div>
-        </section>
-    </main>
-
-    <footer>
-        <p>&copy; 2025 Silly Marathon | Powered by Natural Hege</p>
-        <a href="privacy.html">Privacy Policy</a> | <a href="terms.html">Terms & Conditions</a>
-    </footer>
+  <footer>
+    <p>&copy; 2025 Silly Marathon | Powered by Natural Hege</p>
+    <a href="privacy.html">Privacy Policy</a> | <a href="terms.html">Terms & Conditions</a>
+  </footer>
 
 </body>
 
