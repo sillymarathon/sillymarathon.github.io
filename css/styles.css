@@ -20,11 +20,13 @@ header {
 }
 
 .logo h1 {
+    text-align: center;
     font-size: 2.5rem;
     margin-bottom: 5px;
 }
 
 .logo p {
+    text-align: center;
     font-size: 1.1rem;
     font-weight: 300;
 }
@@ -37,6 +39,7 @@ header {
 }
 
 .hero h2 {
+    text-align: center;
     font-size: 2.8rem;
     color: #0044cc;
     margin-bottom: 15px;
@@ -124,7 +127,8 @@ header {
 .enroll-form {
     background: white;
     max-width: 600px;
-    margin: auto;
+    margin: 50px auto;
+    /* Center the form */
     padding: 35px;
     border-radius: 15px;
     box-shadow: 0 12px 35px rgba(0, 0, 0, 0.1);
@@ -265,4 +269,22 @@ header {
 
 .admin-login .admin-btn:hover {
     background-color: #e2e6ea;
+}
+/* Center the header in form.html */
+.centered-header {
+    text-align: center;
+    /* Align the text to center */
+    padding: 40px 20px;
+    background: linear-gradient(to right, #0044cc, #0066ff);
+    color: #fff;
+}
+
+.centered-header .logo h1 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+}
+
+.centered-header .logo p {
+    font-size: 1.1rem;
+    font-weight: 300;
 }
