@@ -429,3 +429,19 @@ body {
     transform: translateY(-2px);
     box-shadow: 0 6px 18px rgba(10, 88, 202, 0.5);
 }
+.cards-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    /* adds spacing between cards */
+    padding: 20px;
+    /* optional: adds space around the whole container */
+    justify-content: center;
+    /* optional: center the cards */
+}
+
+.cards-container .card {
+    /* If you have a card class, ensure it has a fixed width or max-width */
+    width: 300px;
+    box-sizing: border-box;
+}
