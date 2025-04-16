@@ -119,6 +119,14 @@ function clearFilter() {
     renderCards(allData);
 }
 
+// Reset filter via Reset button
+function resetFilter() {
+    filterType.value = "";
+    filterValue.innerHTML = `<option value="">Select a type first</option>`;
+    filterValue.disabled = true;
+    renderCards(allData);
+}
+
 // Update Participant: fills the modal form
 function updateParticipant(id) {
     database.ref('enrollments/' + id).once('value').then(snapshot => {
