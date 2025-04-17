@@ -76,6 +76,45 @@
         .participant-card {
             transition: transform 0.3s ease, opacity 0.3s ease;
         }
+
+        .search-container {
+            margin: 20px 0;
+            display: flex;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .search-wrapper {
+            position: relative;
+            width: 100%;
+            max-width: 420px;
+        }
+
+        .search-wrapper .search-icon {
+            position: absolute;
+            top: 50%;
+            left: 12px;
+            transform: translateY(-50%);
+            font-size: 16px;
+            color: #888;
+            pointer-events: none;
+        }
+
+        .search-wrapper input {
+            width: 100%;
+            padding: 10px 12px 10px 36px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 14px;
+            background-color: #f9f9f9;
+            transition: border-color 0.2s ease-in-out;
+        }
+
+        .search-wrapper input:focus {
+            border-color: #008800;
+            outline: none;
+            background-color: #fff;
+        }
     </style>
 </head>
 
@@ -120,14 +159,23 @@
         <h1>🏃‍♂️ Marathon 2025 — Admin Panel</h1>
         <button id="logoutBtn">Logout</button>
         <a href="qrscanner.html">
-            <button style="background:#008800;color:white;padding:10px 20px;border:none;border-radius:6px;cursor:pointer;">
+            <button
+                style="background:#008800;color:white;padding:10px 20px;border:none;border-radius:6px;cursor:pointer;">
                 Scan QR & Mark Attendance
             </button>
         </a>
         <a href="qr-details.html" class="qr-button">📷 QR Details</a>
     </div>
 
-    <!-- 🧠 Improved Filter -->
+    <!-- 🔍 Search Bar -->
+    <div class="search-container">
+        <div class="search-wrapper">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="searchInput" placeholder="Search by name, user ID, email, or phone...">
+        </div>
+    </div>
+
+    <!-- 🧠 Filter -->
     <div class="filter-container">
         <label for="filterType">Filter by:</label>
         <select id="filterType">

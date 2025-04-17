@@ -3,8 +3,7 @@ if (sessionStorage.getItem('isAdmin') !== 'true') {
     window.location.href = "login.html";
 }
 
-// Logout functionality
-document.getElementById('logoutBtn').onclick = function() {
+document.getElementById('logoutBtn').onclick = function () {
     sessionStorage.removeItem('isAdmin');
     window.location.href = "login.html";
 };
@@ -12,10 +11,11 @@ document.getElementById('logoutBtn').onclick = function() {
 const filterType = document.getElementById('filterType');
 const filterValue = document.getElementById('filterValue');
 const container = document.getElementById('participantsCards');
+const searchInput = document.getElementById('searchInput');
 
 let allData = [];
 
-// Listen for Firebase data changes
+// Load data from Firebase
 database.ref('enrollments').on('value', snapshot => {
     allData = [];
     container.innerHTML = "";
@@ -30,18 +30,30 @@ database.ref('enrollments').on('value', snapshot => {
     renderCards(allData);
 });
 
-// Renders participant cards
-function renderCards(dataArray) {
+// Render participant cards with optional highlight
+function renderCards(dataArray, highlight = "") {
     container.innerHTML = "";
 
+    const regex = highlight ? new RegExp(`(${highlight})`, "gi") : null;
+
     dataArray.forEach(data => {
+        const fullName = data.fullName || '';
+        const userId = data.userID || '';
+        const email = data.email || '';
+        const phone = data.phone || '';
+
+        const highlightedFullName = highlight ? fullName.replace(regex, "<mark>$1</mark>") : fullName;
+        const highlightedUserId = highlight ? userId.replace(regex, "<mark>$1</mark>") : userId;
+        const highlightedEmail = highlight ? email.replace(regex, "<mark>$1</mark>") : email;
+        const highlightedPhone = highlight ? phone.replace(regex, "<mark>$1</mark>") : phone;
+
         const card = document.createElement('div');
         card.className = 'participant-card';
         card.innerHTML = `
-            <h3>${data.fullName}</h3>
-            <p><strong>User ID:</strong> ${data.userID ? data.userID : 'N/A'}</p>
-            <p><strong>Email:</strong> ${data.email}</p>
-            <p><strong>Phone:</strong> ${data.phone}</p>
+            <h3>${highlightedFullName}</h3>
+            <p><strong>User ID:</strong> ${highlightedUserId || 'N/A'}</p>
+            <p><strong>Email:</strong> ${highlightedEmail}</p>
+            <p><strong>Phone:</strong> ${highlightedPhone}</p>
             <p><strong>Age:</strong> ${data.age}</p>
             <p><strong>Blood Group:</strong> ${data.bloodGroup}</p>
             <p><strong>Event:</strong> ${data.category} (${data.totalCost}₹)</p>
@@ -60,7 +72,32 @@ function renderCards(dataArray) {
     });
 }
 
-// Populates the first dropdown with categories
+// 🔍 Real-time search listener
+searchInput.addEventListener('input', function () {
+    const query = this.value.trim().toLowerCase();
+
+    if (!query) {
+        renderCards(allData);
+        return;
+    }
+
+    const results = allData.filter(participant => {
+        const fullName = participant.fullName?.toLowerCase() || '';
+        const userId = participant.userID?.toLowerCase() || '';
+        const email = participant.email?.toLowerCase() || '';
+        const phone = participant.phone?.toLowerCase() || '';
+
+        return (
+            fullName.includes(query) ||
+            userId.includes(query) ||
+            email.includes(query) ||
+            phone.includes(query)
+        );
+    });
+
+    renderCards(results, query);
+});
+
 function populateFilterOptions(dataArray) {
     const categories = ["fullName", "bloodGroup", "age", "category", "attendance"];
     filterType.innerHTML = `<option value="">Select Category</option>`;
@@ -72,8 +109,8 @@ function populateFilterOptions(dataArray) {
     });
 }
 
-// When category is selected, populate second dropdown with unique values
-filterType.addEventListener('change', function() {
+// Filter handling
+filterType.addEventListener('change', function () {
     const selected = this.value;
 
     if (!selected) {
@@ -94,8 +131,7 @@ filterType.addEventListener('change', function() {
     filterValue.disabled = false;
 });
 
-// Filter the data when a value is selected
-filterValue.addEventListener('change', function() {
+filterValue.addEventListener('change', function () {
     const type = filterType.value;
     const value = this.value;
 
@@ -112,15 +148,6 @@ filterValue.addEventListener('change', function() {
     }
 });
 
-// Clear filter and show all
-function clearFilter() {
-    filterType.value = "";
-    filterValue.innerHTML = `<option value="">Select Value</option>`;
-    filterValue.disabled = true;
-    renderCards(allData);
-}
-
-// Reset filter via Reset button
 function resetFilter() {
     filterType.value = "";
     filterValue.innerHTML = `<option value="">Select a type first</option>`;
@@ -128,7 +155,7 @@ function resetFilter() {
     renderCards(allData);
 }
 
-// Update Participant: fills the modal form
+// Participant update
 function updateParticipant(id) {
     database.ref('enrollments/' + id).once('value').then(snapshot => {
         const data = snapshot.val();
@@ -143,13 +170,11 @@ function updateParticipant(id) {
     });
 }
 
-// Close update modal
 function closeModal() {
     document.getElementById('updateModal').style.display = 'none';
 }
 
-// Save updated participant data
-document.getElementById('updateForm').addEventListener('submit', function(e) {
+document.getElementById('updateForm').addEventListener('submit', function (e) {
     e.preventDefault();
 
     const id = document.getElementById('updateId').value;
@@ -170,7 +195,6 @@ document.getElementById('updateForm').addEventListener('submit', function(e) {
     });
 });
 
-// Calculate total cost based on event
 function calculateCost(category) {
     switch (category) {
         case '5k': return 500;
@@ -181,14 +205,12 @@ function calculateCost(category) {
     }
 }
 
-// Delete participant
 function deleteParticipant(id) {
     if (confirm('Are you sure you want to delete this registration?')) {
         database.ref('enrollments/' + id).remove();
     }
 }
 
-// Toggle attendance present/absent
 function toggleAttendance(id) {
     const participantRef = database.ref('enrollments/' + id);
     participantRef.once('value').then(snapshot => {
