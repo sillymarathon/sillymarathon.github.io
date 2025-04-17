@@ -73,23 +73,55 @@
             background-color: #c0c0c0;
         }
 
-        .participant-card {
-            transition: transform 0.3s ease, opacity 0.3s ease;
+        /* Styling for the cards container */
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            /* Responsive grid */
+            gap: 15px;
+            /* Reduced the gap between cards */
+            padding: 20px;
+            justify-items: center;
         }
 
+        /* Card style */
+        .participant-card {
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            padding: 15px;
+            max-width: 300px;
+            width: 100%;
+            margin-bottom: 10px;
+            /* Reduce the space at the bottom of each card */
+        }
+
+        /* Optional: Hover effect on cards for interactivity */
+        .participant-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Ensure the container takes up full width but is centered */
         .search-container {
-            margin: 20px 0;
+            margin: 20px auto;
             display: flex;
             justify-content: center;
             width: 100%;
         }
 
+        /* Wrapping the input and icon in a compact, flexible container */
         .search-wrapper {
             position: relative;
             width: 100%;
-            max-width: 420px;
+            max-width: 450px;
+            /* Max width ensures it won't be too wide on desktops */
+            min-width: 250px;
+            /* Prevents it from becoming too small on mobile */
         }
 
+        /* Positioning the search icon inside the input box */
         .search-wrapper .search-icon {
             position: absolute;
             top: 50%;
@@ -100,9 +132,11 @@
             pointer-events: none;
         }
 
+        /* Style the input field */
         .search-wrapper input {
             width: 100%;
             padding: 10px 12px 10px 36px;
+            /* Padding leaves space for the icon */
             border: 1px solid #ccc;
             border-radius: 8px;
             font-size: 14px;
@@ -110,10 +144,31 @@
             transition: border-color 0.2s ease-in-out;
         }
 
+        /* Change border color when focused */
         .search-wrapper input:focus {
             border-color: #008800;
             outline: none;
             background-color: #fff;
+        }
+
+        /* Responsive Design: Ensuring good fit on smaller screens */
+        @media (max-width: 768px) {
+            .search-wrapper {
+                max-width: 100%;
+                /* Make it fill the screen on smaller devices */
+            }
+
+            .search-wrapper input {
+                font-size: 12px;
+                /* Adjust font size for better readability */
+            }
+        }
+
+        @media (max-width: 480px) {
+            .search-wrapper input {
+                padding: 8px 12px 8px 32px;
+                /* Adjust padding for mobile view */
+            }
         }
     </style>
 </head>
