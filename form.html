@@ -125,7 +125,6 @@
         font-size: 0.9rem;
       }
 
-      /* Make checkbox and label inline */
       .compliance-checkbox {
         display: flex;
         align-items: center;
@@ -192,7 +191,6 @@
 
           <p class="cost-display">Total Cost: ₹<span id="cost">0</span></p>
 
-          <!-- Terms & Conditions Agreement Section -->
           <div style="display: flex; align-items: center; margin-top: 20px">
             <input
               type="checkbox"
@@ -283,10 +281,13 @@
           return;
         }
 
+        // Generate random 5-digit user ID
+        const userId = Math.floor(10000 + Math.random() * 90000);
+
         const newRef = firebase.database().ref("enrollments").push();
-        const userId = newRef.key;
 
         const userData = {
+          userId,  // Store the 5-digit user ID
           fullName,
           email,
           phone,
@@ -301,7 +302,7 @@
           await newRef.set(userData);
 
           const qr = new QRious({
-            value: userId,
+            value: userId.toString(),  // Pass the 5-digit ID to the QR code generator
             size: 150,
             background: "#ffffff",
             foreground: "#000000",
