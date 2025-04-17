@@ -39,6 +39,7 @@ function renderCards(dataArray) {
         card.className = 'participant-card';
         card.innerHTML = `
             <h3>${data.fullName}</h3>
+            <p><strong>User ID:</strong> ${data.userID ? data.userID : 'N/A'}</p>
             <p><strong>Email:</strong> ${data.email}</p>
             <p><strong>Phone:</strong> ${data.phone}</p>
             <p><strong>Age:</strong> ${data.age}</p>
