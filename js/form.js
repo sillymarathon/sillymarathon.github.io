@@ -1,3 +1,4 @@
+// Event Prices Map
 const eventPrices = {
   '5k': 500,
   '10k': 700,
@@ -9,7 +10,7 @@ const form = document.getElementById('form');
 const message = document.getElementById('message');
 const costDisplay = document.getElementById('cost');
 
-// Update cost when event is selected
+// Update total cost when event selection changes
 document.getElementById('category').addEventListener('change', function () {
   const selected = this.value;
   const price = eventPrices[selected] || 0;
@@ -27,14 +28,23 @@ form.addEventListener('submit', async function (e) {
   const bloodGroup = document.getElementById('bloodGroup').value;
   const category = document.getElementById('category').value;
   const totalCost = eventPrices[category] || 0;
+  const agreed = document.getElementById('agree')?.checked;
 
-  if (!fullName || !email || !phone || isNaN(age) || !bloodGroup || !category) {
+  // Validate form fields
+  if (!fullName || !email || !phone || isNaN(age) || age <= 0 || !bloodGroup || !category) {
     message.textContent = '❌ Please fill all fields correctly.';
     message.style.color = 'red';
     return;
   }
 
+  if (!agreed) {
+    message.textContent = '❌ You must agree to the terms and conditions.';
+    message.style.color = 'red';
+    return;
+  }
+
   try {
+    // Reference to Firebase
     const newEntryRef = firebase.database().ref('enrollments').push();
     const userId = newEntryRef.key;
 
@@ -50,18 +60,21 @@ form.addEventListener('submit', async function (e) {
       timestamp: new Date().toISOString()
     };
 
+    console.log("Submitting userData:", userData);
+
+    // Save data to Firebase
     await newEntryRef.set(userData);
 
-    // Generate the QR code with userId as content
+    // Generate QR Code with userId as the code value
     const qr = new QRious({
       value: userId,
-      size: 150, // Clean small size for mobile-friendly
+      size: 150,
       background: '#ffffff',
       foreground: '#000000',
       level: 'H'
     });
 
-    // Auto-download the QR code
+    // Auto-download the generated QR Code
     const link = document.createElement('a');
     link.href = qr.toDataURL();
     link.download = `${fullName.replace(/\s+/g, '_')}_QR.png`;
@@ -69,6 +82,7 @@ form.addEventListener('submit', async function (e) {
     link.click();
     document.body.removeChild(link);
 
+    // Success message
     message.innerHTML = `✅ Thanks, ${fullName}! You've enrolled for the ${category.toUpperCase()} event.<br>Your QR Code has been downloaded.`;
     message.style.color = 'green';
 
@@ -76,7 +90,7 @@ form.addEventListener('submit', async function (e) {
     costDisplay.textContent = '0';
 
   } catch (error) {
-    console.error(error);
+    console.error('Error submitting form:', error);
     message.textContent = '❌ Something went wrong. Please try again.';
     message.style.color = 'red';
   }

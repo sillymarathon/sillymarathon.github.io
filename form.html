@@ -280,6 +280,8 @@
           return;
         }
 
+        const totalCost = prices[category] || 0;
+
         const newRef = firebase.database().ref("enrollments").push();
 
         const userData = {
@@ -289,6 +291,7 @@
           age,
           bloodGroup,
           category,
+          totalCost, // ✅ total cost saved in DB
           attendance: false,
           timestamp: new Date().toISOString(),
         };
