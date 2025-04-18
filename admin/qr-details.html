@@ -133,12 +133,13 @@
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
 
     <script>
+        // Firebase config
         const firebaseConfig = {
             apiKey: "AIzaSyC9L8qYIiCpSUi3L5fuoEpTaaO3VU0ZHTc",
             authDomain: "marathon-b535e.firebaseapp.com",
             databaseURL: "https://marathon-b535e-default-rtdb.asia-southeast1.firebasedatabase.app",
             projectId: "marathon-b535e",
-            storageBucket: "marathon-b535e.firebasestorage.app",
+            storageBucket: "marathon-b535e.appspot.com",
             messagingSenderId: "413978104503",
             appId: "1:413978104503:web:570e7ba747d71643983332",
             measurementId: "G-4221CKSTDP"
@@ -171,15 +172,15 @@
                 resultDisplay.className = "result";
 
                 try {
-                    const userId = result.trim();
-                    const snapshot = await database.ref('enrollments/' + userId).once('value');
+                    const firebaseKey = result.trim();
+                    const snapshot = await database.ref('enrollments/' + firebaseKey).once('value');
                     const data = snapshot.val();
 
                     if (data) {
                         resultDisplay.innerHTML = `✅ Participant Found!`;
                         resultDisplay.classList.add('success');
 
-                        userIdSpan.textContent = userId;
+                        userIdSpan.textContent = data.userID || "N/A";
                         fullName.textContent = data.fullName;
                         eventCategory.textContent = data.category;
                         age.textContent = data.age || "N/A";
