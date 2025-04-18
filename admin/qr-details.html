@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Marathon 2025 | QR Code Scanner</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css"> <!-- Adjust path if needed -->
+    <link rel="stylesheet" href="style.css">
     <style>
         body {
             font-family: 'Poppins', sans-serif;
@@ -112,6 +112,7 @@
     <!-- Participant details -->
     <div id="participant-details" class="details" style="display:none;">
         <h3>Participant Details</h3>
+        <p><strong>User ID:</strong> <span id="user-id"></span></p>
         <p><strong>Name:</strong> <span id="full-name"></span></p>
         <p><strong>Event:</strong> <span id="event-category"></span></p>
         <p><strong>Age:</strong> <span id="age"></span></p>
@@ -132,7 +133,6 @@
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
 
     <script>
-        // Your Firebase project configuration
         const firebaseConfig = {
             apiKey: "AIzaSyC9L8qYIiCpSUi3L5fuoEpTaaO3VU0ZHTc",
             authDomain: "marathon-b535e.firebaseapp.com",
@@ -144,7 +144,6 @@
             measurementId: "G-4221CKSTDP"
         };
 
-        // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
 
@@ -158,13 +157,14 @@
         const email = document.getElementById('email');
         const phoneNumber = document.getElementById('phone-number');
         const attendance = document.getElementById('attendance');
+        const userIdSpan = document.getElementById('user-id');
         const rescanButton = document.getElementById('rescan-button');
 
         let scanner;
 
         const startScanner = () => {
             scanner = new QrScanner(video, async result => {
-                scanner.stop();  // Pause scanner to handle data
+                scanner.stop();
                 console.log("QR Code Detected:", result);
 
                 resultDisplay.textContent = "🔍 Searching participant...";
@@ -179,6 +179,7 @@
                         resultDisplay.innerHTML = `✅ Participant Found!`;
                         resultDisplay.classList.add('success');
 
+                        userIdSpan.textContent = userId;
                         fullName.textContent = data.fullName;
                         eventCategory.textContent = data.category;
                         age.textContent = data.age || "N/A";
@@ -186,8 +187,8 @@
                         email.textContent = data.email || "N/A";
                         phoneNumber.textContent = data.phone || "N/A";
                         attendance.textContent = data.attendance ? "Yes" : "No";
-                        participantDetails.style.display = 'block';
 
+                        participantDetails.style.display = 'block';
                         rescanButton.style.display = 'block';
                         video.style.display = 'none';
                     } else {
@@ -202,13 +203,13 @@
                 }
             });
 
-            scanner.start({ // Adjust scan settings for speed
+            scanner.start({
                 video: {
-                    facingMode: 'environment', // Use the back camera for scanning
-                    width: { ideal: 1280 }, // Set video resolution to speed up the process
-                    height: { ideal: 720 }  // Set height accordingly
+                    facingMode: 'environment',
+                    width: { ideal: 1280 },
+                    height: { ideal: 720 }
                 },
-                frameRate: 60 // Increase frame rate for faster detection
+                frameRate: 60
             }).catch(err => {
                 console.error("Camera access error:", err);
                 resultDisplay.textContent = "❌ Camera not accessible or permission denied.";
@@ -226,7 +227,7 @@
         };
 
         const goBack = () => {
-            window.history.back(); // Replace with your desired URL if you prefer.
+            window.history.back();
         };
 
         startScanner();
