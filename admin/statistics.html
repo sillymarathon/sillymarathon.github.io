@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Participant Statistics</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f2f4f8;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h2 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .back-button {
+            display: block;
+            margin: 0 auto 20px auto;
+            padding: 10px 20px;
+            background: #007BFF;
+            color: white;
+            text-decoration: none;
+            text-align: center;
+            border-radius: 8px;
+            width: max-content;
+            transition: background 0.2s ease;
+        }
+
+        .back-button:hover {
+            background: #0056b3;
+        }
+
+        .card-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+        }
+
+        .card h3 {
+            margin-top: 0;
+            color: #444;
+        }
+
+        .card p, .card li {
+            margin: 8px 0;
+            color: #333;
+        }
+
+        ul {
+            padding: 0;
+            list-style: none;
+        }
+
+        .footer-note {
+            text-align: center;
+            margin-top: 40px;
+            color: #777;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+    <a class="back-button" href="dashboard.html">← Back to Dashboard</a>
+
+    <h2>🏃‍♂️ Participant Statistics Overview</h2>
+
+    <div class="card-container">
+        <div class="card">
+            <h3>Total Participants</h3>
+            <p id="totalParticipants">Loading...</p>
+        </div>
+
+        <div class="card">
+            <h3>Attendance Summary</h3>
+            <p id="attendanceSummary">Loading...</p>
+        </div>
+
+        <div class="card">
+            <h3>Average Age</h3>
+            <p id="averageAge">Loading...</p>
+        </div>
+
+        <div class="card">
+            <h3>Event Categories</h3>
+            <ul id="eventStats"></ul>
+        </div>
+
+        <div class="card">
+            <h3>Blood Group Distribution</h3>
+            <ul id="bloodStats"></ul>
+        </div>
+    </div>
+
+    <p class="footer-note">Statistics auto-update in real-time. 🚀</p>
+
+    <!-- Firebase JS SDK -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyC9L8qYIiCpSUi3L5fuoEpTaaO3VU0ZHTc",
+            authDomain: "marathon-b535e.firebaseapp.com",
+            databaseURL: "https://marathon-b535e-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "marathon-b535e",
+            storageBucket: "marathon-b535e.firebasestorage.app",
+            messagingSenderId: "413978104503",
+            appId: "1:413978104503:web:570e7ba747d71643983332",
+            measurementId: "G-4221CKSTDP"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+
+        function updateStatistics() {
+            database.ref('enrollments').once('value').then(snapshot => {
+                const data = [];
+                snapshot.forEach(child => {
+                    data.push(child.val());
+                });
+
+                document.getElementById('totalParticipants').textContent = data.length;
+
+                let attendance = { present: 0, absent: 0 };
+                let eventCounts = {};
+                let bloodCounts = {};
+                let totalAge = 0;
+                let validAges = 0;
+
+                data.forEach(p => {
+                    p.attendance ? attendance.present++ : attendance.absent++;
+                    eventCounts[p.category] = (eventCounts[p.category] || 0) + 1;
+                    bloodCounts[p.bloodGroup] = (bloodCounts[p.bloodGroup] || 0) + 1;
+
+                    const age = parseInt(p.age);
+                    if (!isNaN(age)) {
+                        totalAge += age;
+                        validAges++;
+                    }
+                });
+
+                document.getElementById('attendanceSummary').textContent =
+                    `✅ Present: ${attendance.present} | ❌ Absent: ${attendance.absent}`;
+
+                const eventStats = document.getElementById('eventStats');
+                eventStats.innerHTML = "";
+                for (let event in eventCounts) {
+                    eventStats.innerHTML += `<li>${event}: ${eventCounts[event]}</li>`;
+                }
+
+                const bloodStats = document.getElementById('bloodStats');
+                bloodStats.innerHTML = "";
+                for (let group in bloodCounts) {
+                    bloodStats.innerHTML += `<li>${group}: ${bloodCounts[group]}</li>`;
+                }
+
+                document.getElementById('averageAge').textContent =
+                    validAges > 0 ? (totalAge / validAges).toFixed(1) : 'N/A';
+            }).catch(err => {
+                console.error("Error fetching data:", err);
+            });
+        }
+
+        // Realtime listener for automatic updates
+        database.ref('enrollments').on('value', () => {
+            updateStatistics();
+        });
+
+        // Initial load
+        updateStatistics();
+    </script>
+
+</body>
+</html>
