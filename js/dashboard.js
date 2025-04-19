@@ -12,6 +12,7 @@ const filterType = document.getElementById('filterType');
 const filterValue = document.getElementById('filterValue');
 const container = document.getElementById('participantsCards');
 const searchInput = document.getElementById('searchInput');
+const totalCountElement = document.getElementById('totalCount'); // Total count element
 
 let allData = [];
 
@@ -26,9 +27,17 @@ database.ref('enrollments').on('value', snapshot => {
         allData.push(data);
     });
 
+    updateParticipantCount(allData.length);  // Update the total participant count
     populateFilterOptions(allData);
     renderCards(allData);
 });
+
+// Function to update the participant count in the UI
+function updateParticipantCount(count) {
+    if (totalCountElement) {
+        totalCountElement.textContent = count;
+    }
+}
 
 // Render participant cards with optional highlight
 function renderCards(dataArray, highlight = "") {
@@ -70,6 +79,9 @@ function renderCards(dataArray, highlight = "") {
         `;
         container.appendChild(card);
     });
+
+    // Update the total count after rendering the cards
+    updateParticipantCount(dataArray.length);
 }
 
 // 🔍 Real-time search listener
@@ -98,6 +110,7 @@ searchInput.addEventListener('input', function () {
     renderCards(results, query);
 });
 
+// Populate filter options dynamically based on participant data
 function populateFilterOptions(dataArray) {
     const categories = ["fullName", "bloodGroup", "age", "category", "attendance"];
     filterType.innerHTML = `<option value="">Select Category</option>`;
@@ -148,6 +161,7 @@ filterValue.addEventListener('change', function () {
     }
 });
 
+// Reset filter
 function resetFilter() {
     filterType.value = "";
     filterValue.innerHTML = `<option value="">Select a type first</option>`;
@@ -174,6 +188,7 @@ function closeModal() {
     document.getElementById('updateModal').style.display = 'none';
 }
 
+// Update participant info after modal form submission
 document.getElementById('updateForm').addEventListener('submit', function (e) {
     e.preventDefault();
 
