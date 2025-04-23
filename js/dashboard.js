@@ -80,7 +80,6 @@ function renderCards(dataArray, highlight = "") {
         container.appendChild(card);
     });
 
-    // Update the total count after rendering the cards
     updateParticipantCount(dataArray.length);
 }
 
@@ -132,7 +131,21 @@ filterType.addEventListener('change', function () {
         return;
     }
 
-    const uniqueValues = [...new Set(allData.map(item => item[selected]))];
+    let uniqueValues = [...new Set(allData.map(item => item[selected]))];
+
+    // Override age with age groups
+    if (selected === 'age') {
+        uniqueValues = [
+            'Children (0-9)',
+            'Teen (10-19)',
+            'Young Adult (20-29)',
+            'Adult (30-49)',
+            'Senior (50-69)',
+            'Elderly (70+)'
+        ];
+    }
+    
+
     filterValue.innerHTML = `<option value="">Select Value</option>`;
     uniqueValues.forEach(val => {
         const option = document.createElement('option');
@@ -152,11 +165,19 @@ filterValue.addEventListener('change', function () {
         renderCards(allData);
     } else {
         const filtered = allData.filter(item => {
-            if (type === 'attendance') {
-                return String(item[type]) === String(value === 'Present' || value === 'true');
-            }
+            if (type === 'age') {
+                const age = parseInt(item.age, 10);
+                if (value === 'Children (0-9)') return age >= 0 && age <= 9;
+                if (value === 'Teen (10-19)') return age >= 10 && age <= 19;
+                if (value === 'Young Adult (20-29)') return age >= 20 && age <= 29;
+                if (value === 'Adult (30-49)') return age >= 30 && age <= 49;
+                if (value === 'Senior (50-69)') return age >= 50 && age <= 69;
+                if (value === 'Elderly (70+)') return age >= 70;
+                return false;
+            }            
             return String(item[type]) === value;
         });
+
         renderCards(filtered);
     }
 });
