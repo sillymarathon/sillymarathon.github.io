@@ -243,21 +243,30 @@
       const form = document.getElementById("form");
       const message = document.getElementById("message");
       const costDisplay = document.getElementById("cost");
-
+      const categorySelect = document.getElementById("category"); // ✅ added this line
+    
       const prices = {
         "5k": 500,
         "10k": 700,
         "20k": 1000,
         "40k": 1200,
       };
-
-      document.getElementById("category").addEventListener("change", (e) => {
-        costDisplay.textContent = prices[e.target.value] || 0;
-      });
-
+    
+      // ✅ New function to update cost
+      function updateCost() {
+        const selected = categorySelect.value;
+        costDisplay.textContent = prices[selected] || 0;
+      }
+    
+      // ✅ Update cost on category change
+      categorySelect.addEventListener("change", updateCost);
+    
+      // ✅ Update cost when page loads
+      window.addEventListener("DOMContentLoaded", updateCost);
+    
       form.addEventListener("submit", async (e) => {
         e.preventDefault();
-
+    
         const fullName = form.fullName.value.trim();
         const email = form.email.value.trim();
         const phone = form.phone.value.trim();
@@ -265,7 +274,7 @@
         const bloodGroup = form.bloodGroup.value;
         const category = form.category.value;
         const compliance = form.querySelector('input[type="checkbox"]').checked;
-
+    
         if (
           !fullName ||
           !email ||
@@ -279,11 +288,11 @@
             "❌ Please fill all fields and agree to the Terms and Policy.";
           return;
         }
-
+    
         const totalCost = prices[category] || 0;
-
+    
         const newRef = firebase.database().ref("enrollments").push();
-
+    
         const userData = {
           fullName,
           email,
@@ -295,10 +304,10 @@
           attendance: false,
           timestamp: new Date().toISOString(),
         };
-
+    
         try {
           await newRef.set(userData);
-
+    
           message.innerHTML = `✅ Registered successfully!<br>Thank you for joining Silly Marathon 2025.`;
           form.reset();
           costDisplay.textContent = "0";
@@ -307,6 +316,6 @@
           message.textContent = "❌ Error submitting your form.";
         }
       });
-    </script>
+    </script>    
   </body>
 </html>
